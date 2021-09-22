@@ -1,16 +1,16 @@
 import axios from 'axios'
 
-import { API_KEY_FOR_MY_POSITION, URL_CONVERT_SELECT_CURRENCY, URL_GET_CURRENCIES, URL_MY_IP, URL_MY_POSITION } from '@/constants'
+import { API_KEY_FOR_CURRENT_POSITION, URL_CONVERT_SELECT_CURRENCY, URL_GET_CURRENCIES, URL_GET_CURRENT_IP, URL_GET_CURRENT_POSITION } from '@/constants'
 
 export default class ConverterService {
   static async getCurrentIP () {
-    return axios.get(URL_MY_IP)
+    return axios.get(URL_GET_CURRENT_IP)
   }
 
-  static async getCurrentPosition (myIP) {
-    return axios.get(`${URL_MY_POSITION}${myIP}`, {
+  static async getCurrentPosition (ip) {
+    return axios.get(`${URL_GET_CURRENT_POSITION}${ip}`, {
       params: {
-        key: API_KEY_FOR_MY_POSITION,
+        key: API_KEY_FOR_CURRENT_POSITION,
       },
     })
   }

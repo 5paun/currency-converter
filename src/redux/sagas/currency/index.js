@@ -5,9 +5,9 @@ import ConverterService from '@/api/ConverterService'
 
 function * getCurrentIpSagaWorker () {
   try {
-    const myIP = yield call(ConverterService.getCurrentIP)
-    const myPosition = yield call(ConverterService.getCurrentPosition, myIP.data.ipAddress)
-    yield put({ type: USER_DATA_RESPONSE, payload: { ipAddress: myIP.data.ipAddress, currencyCodeMyLocation: myPosition.data.currency.code.toLowerCase() } })
+    const currentIP = yield call(ConverterService.getCurrentIP)
+    const currentPosition = yield call(ConverterService.getCurrentPosition, currentIP.data.ipAddress)
+    yield put({ type: USER_DATA_RESPONSE, payload: { ipAddress: currentIP.data.ipAddress, currencyCodeCurrentLocation: currentPosition.data.currency.code.toLowerCase() } })
     yield call(convertSelectedCurrencySagaWorker)
   } catch (error) {
     console.log('error', error)
@@ -27,9 +27,9 @@ function * getCurrenciesSagaWorker () {
 
 function * convertSelectedCurrencySagaWorker () {
   try {
-    const currencyCodeMyLocation = yield select(state => state.currencies.currencyCodeMyLocation)
-    if (currencyCodeMyLocation) {
-      const response = yield call(ConverterService.convertSelectedCurrency, currencyCodeMyLocation)
+    const currencyCodeCurrentLocation = yield select(state => state.currencies.currencyCodeCurrentLocation)
+    if (currencyCodeCurrentLocation) {
+      const response = yield call(ConverterService.convertSelectedCurrency, currencyCodeCurrentLocation)
       yield put({ type: SET_LOCAL_CURRENCY_RESPONSE, payload: response.data })
     }
   } catch (error) {

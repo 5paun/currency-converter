@@ -2,9 +2,9 @@ import { USER_DATA_RESPONSE, CURRENCIES_RESPONSE, CURRENCIES_RESPONSE_FAIL, SET_
 
 const initialState = {
   ipAddress: '',
-  currencyCodeMyLocation: '',
+  currencyCodeCurrentLocation: '',
   currencyCodeConverted: 'usd',
-  currencyAmountMy: 0,
+  currencyAmountHave: 0,
   currencyAmountConverted: 0,
   currencies: [],
   convertedCurrency: {},
@@ -42,7 +42,7 @@ export function currenciesReducer (state = initialState, action) {
       return {
         ...state,
         convertedCurrency: action.payload,
-        currencyAmountConverted: state.currencyCodeMyLocation ? action.payload[state.currencyCodeMyLocation][state.currencyCodeConverted] : 0,
+        currencyAmountConverted: state.currencyCodeCurrentLocation ? action.payload[state.currencyCodeCurrentLocation][state.currencyCodeConverted] : 0,
       }
     case SET_LOCAL_CURRENCY_RESPONSE_FAIL:
       return {
@@ -52,13 +52,13 @@ export function currenciesReducer (state = initialState, action) {
     case SET_AMOUNT_CURRENCY:
       return {
         ...state,
-        currencyAmountMy: action.payload,
-        currencyAmountConverted: action.payload * state.convertedCurrency[state.currencyCodeMyLocation][state.currencyCodeConverted],
+        currencyAmountHave: action.payload,
+        currencyAmountConverted: action.payload * state.convertedCurrency[state.currencyCodeCurrentLocation][state.currencyCodeConverted],
       }
     case SET_AMOUNT_CURRENCY_CONVERTED:
       return {
         ...state,
-        currencyAmountMy: action.payload / state.convertedCurrency[state.currencyCodeMyLocation][state.currencyCodeConverted],
+        currencyAmountHave: action.payload / state.convertedCurrency[state.currencyCodeCurrentLocation][state.currencyCodeConverted],
         currencyAmountConverted: action.payload,
       }
 

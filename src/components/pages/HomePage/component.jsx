@@ -19,12 +19,12 @@ const HomePage = () => {
   const classes = useStyles()
 
   const currencies = useSelector(state => state.currencies.currencies)
-  const currencyCodeMyLocation = useSelector(state => state.currencies.currencyCodeMyLocation)
+  const currencyCodeCurrentLocation = useSelector(state => state.currencies.currencyCodeCurrentLocation)
   const currencyCodeConverted = useSelector(state => state.currencies.currencyCodeConverted)
-  const currencyAmountMy = useSelector(state => state.currencies.currencyAmountMy)
+  const currencyAmountHave = useSelector(state => state.currencies.currencyAmountHave)
   const currencyAmountConverted = useSelector(state => state.currencies.currencyAmountConverted)
 
-  const [currencyCodeMyLocationStorage, setcurrencyCodeMyLocationStorage] = useLocalStorage('currencyCodeMyLocation', '')
+  const [currencyCodeCurrentLocationStorage, setcurrencyCodeCurrentLocationStorage] = useLocalStorage('currencyCodeCurrentLocation', '')
   const [currencyCodeConvertedStorage, setCurrencyCodeConvertedStorage] = useLocalStorage('currencyCodeConverted', '')
 
   const selectCurrencyCode = (action, value) => {
@@ -50,12 +50,12 @@ const HomePage = () => {
       <Converter
         dscr={'I have'}
         currencies={currencies}
-        currencyCode={currencyCodeMyLocationStorage || currencyCodeMyLocation}
+        currencyCode={currencyCodeCurrentLocationStorage || currencyCodeCurrentLocation}
         selectCurrencyCode={e => {
-          selectCurrencyCode(SET_LOCAL_CURRENCY_REQUEST, { currencyCodeMyLocation: e.target.value })
-          setcurrencyCodeMyLocationStorage(e.target.value)
+          selectCurrencyCode(SET_LOCAL_CURRENCY_REQUEST, { currencyCodeCurrentLocation: e.target.value })
+          setcurrencyCodeCurrentLocationStorage(e.target.value)
         }}
-        currencyAmount={currencyAmountMy}
+        currencyAmount={currencyAmountHave}
         changeCurrencyAmount={e => changeCurrencyAmount(SET_AMOUNT_CURRENCY, Number(e.target.value))}
       />
       <Converter
@@ -66,7 +66,7 @@ const HomePage = () => {
           selectCurrencyCode(SET_LOCAL_CURRENCY_REQUEST, { currencyCodeConverted: e.target.value })
           setCurrencyCodeConvertedStorage(e.target.value)
         }}
-        currencyAmount={currencyAmountMy > 0 ? currencyAmountConverted : 0}
+        currencyAmount={currencyAmountHave > 0 ? currencyAmountConverted : 0}
         changeCurrencyAmount={e => changeCurrencyAmount(SET_AMOUNT_CURRENCY_CONVERTED, Number(e.target.value))}
       />
       </div>
