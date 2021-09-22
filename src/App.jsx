@@ -9,10 +9,10 @@ import { getStore } from '@/redux/store'
 const App = () => {
   return (
       <Provider store={getStore()}>
-        <ThemeProviderWrapper>
-        <CssBaseline />
+        {/* <ThemeProviderWrapper> */}
+          <CssBaseline />
           <HomePage />
-        </ThemeProviderWrapper>
+        {/* </ThemeProviderWrapper> */}
       </Provider>
   )
 }

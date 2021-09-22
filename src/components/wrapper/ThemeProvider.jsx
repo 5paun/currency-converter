@@ -1,13 +1,11 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from '@material-ui/styles'
 
 import theme from '@/theme'
-import GlobalStyle from '@/theme/GlobalStyle'
 
 const ThemeProviderWrapper = ({ children }) => (
     <ThemeProvider theme={theme}>
       <>
-        <GlobalStyle />
         {children}
       </>
     </ThemeProvider>

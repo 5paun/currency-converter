@@ -29,8 +29,6 @@ The installation process should be done with `yarn install`.
 - react-app-rewired;
 - react-hot-loader;
 - stylelint-config-recommended;
-- stylelint-config-styled-components;
-- stylelint-processor-styled-components;
 
 # Recomendations
 
@@ -39,10 +37,6 @@ The installation process should be done with `yarn install`.
 - `component.jsx` - base component;
 - `index.js` - has default export only (by default it's container, if container does not implemented it should export component).
 
-### Common styles (styled-components)
-
-It should be located in `components` folder according existing tree structure.
-
 ### Global styles and theme
 
-Global styles located in `src/theme/GlobalStyle.js` file and theme in `src/theme/index.js`. The theme provides sizing and color constants that should be used in whole application. Please do not hardcode units and colors directly in styled-components files, it should be always placed in theme.
+Global styles located in theme in `src/theme/index.js`. The theme provides sizing and color constants that should be used in whole application. Please do not hardcode units and colors directly in styled-components files, it should be always placed in theme.
