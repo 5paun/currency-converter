@@ -1,4 +1,5 @@
 import { call, put, select, takeEvery } from '@redux-saga/core/effects'
+
 import { USER_DATA_REQUEST, USER_DATA_RESPONSE, CURRENCIES_RESPONSE, SET_LOCAL_CURRENCY_REQUEST, SET_LOCAL_CURRENCY_RESPONSE, SET_LOCAL_CURRENCY_RESPONSE_FAIL, CURRENCIES_RESPONSE_FAIL, USER_DATA_RESPONSE_FAIL } from '@/constants'
 import ConverterService from '@/api/ConverterService'
 

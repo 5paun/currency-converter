@@ -1,4 +1,5 @@
 import { all } from 'redux-saga/effects'
+
 import currenciesSagaWatcher from './currency'
 
 function * rootSaga () {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { API_KEY_FOR_MY_POSITION, URL_CONVERT_SELECT_CURRENCY, URL_GET_CURRENCIES, URL_MY_IP, URL_MY_POSITION } from '@/constants'
 
 export default class ConverterService {

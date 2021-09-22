@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Converter from '@/components/controls/Converter'
 import { Container, makeStyles, Typography } from '@material-ui/core'
+
+import Converter from '@/components/controls/Converter'
 import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SET_AMOUNT_CURRENCY_CONVERTED, SET_AMOUNT_CURRENCY } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 
