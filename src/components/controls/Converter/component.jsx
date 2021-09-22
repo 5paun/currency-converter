@@ -22,8 +22,6 @@ const useStyles = makeStyles({
 const Converter = ({ dscr, currencies = [], currencyCode, selectCurrencyCode, currencyAmount, changeCurrencyAmount }) => {
   const classes = useStyles()
 
-  // console.log('currencyAmount', currencyAmount)
-
   return (
     <div className={classes.root}>
       <Typography className={classes.title} variant="h5"
