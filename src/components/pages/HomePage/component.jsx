@@ -5,7 +5,7 @@ import { Container, makeStyles, Typography } from '@material-ui/core'
 import Converter from '@/components/controls/Converter'
 import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
-import serviceData from '@/constants/currencies'
+import data from '@/mocks/data.json'
 
 const useStyles = makeStyles({
   convertersContainer: {
@@ -19,7 +19,7 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
 
-  const currencies = Object.entries(serviceData).map(item => ({ value: item[0], label: item[1] }))
+  const currencies = Object.entries(data).map(item => ({ value: item[0], label: item[1] }))
   const codeCurrentLocation = useSelector(state =>
     state.exchange.code.currentLocation,
   )
@@ -59,6 +59,26 @@ const HomePage = () => {
     })
     setCodeConvertedStorage(e.target.value)
   }
+
+  console.log('codeConvertedStorage', codeConvertedStorage)
+
+  useEffect(() => {
+    // setTimeout(() => {
+    if (codeCurrentLocationStorage) {
+      dispatch({
+        type: SET_LOCAL_CURRENCY_REQUEST,
+        payload: { currentLocation: codeCurrentLocationStorage },
+      })
+    }
+    if (codeConvertedStorage) {
+      dispatch({
+        type: SET_LOCAL_CURRENCY_REQUEST,
+        payload: { converted: codeConvertedStorage },
+      })
+    }
+
+    // }, 3000)
+  }, [])
 
   return (
     <Container>

@@ -41,7 +41,7 @@ export function exchangeReducer (state = initialState, action) {
         },
       }
     case SET_LOCAL_CURRENCY_RESPONSE: {
-      const exChange = action.payload[state.code.currentLocation][state.code.converted]
+      const exChange = action.payload[state.code.currentLocation][state.code.converted] * state.currency.amountHave
       return {
         ...state,
         convertedCurrency: action.payload,
