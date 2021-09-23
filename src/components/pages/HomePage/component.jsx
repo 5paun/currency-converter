@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Container, makeStyles, Typography } from '@material-ui/core'
 
 import Converter from '@/components/controls/Converter'
-import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SET_AMOUNT_CURRENCY_CONVERTED, SET_AMOUNT_CURRENCY } from '@/constants'
+import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
+import serviceData from '@/constants/currencies'
 
 const useStyles = makeStyles({
   convertersContainer: {
@@ -18,26 +19,46 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
 
-  const currencies = useSelector(state => state.currencies.currencies)
-  const currencyCodeCurrentLocation = useSelector(state => state.currencies.currencyCodeCurrentLocation)
-  const currencyCodeConverted = useSelector(state => state.currencies.currencyCodeConverted)
-  const currencyAmountHave = useSelector(state => state.currencies.currencyAmountHave)
-  const currencyAmountConverted = useSelector(state => state.currencies.currencyAmountConverted)
+  const currencies = Object.entries(serviceData).map(item => ({ value: item[0], label: item[1] }))
+  const codeCurrentLocation = useSelector(state =>
+    state.exchange.code.currentLocation,
+  )
+  const codeConverted = useSelector(state => state.exchange.code.converted)
+  const currencyAmountHave = useSelector(state => state.exchange.currency.amountHave)
+  const currencyAmountConverted = useSelector(state => state.exchange.currency.amountConverted)
 
-  const [currencyCodeCurrentLocationStorage, setcurrencyCodeCurrentLocationStorage] = useLocalStorage('currencyCodeCurrentLocation', '')
-  const [currencyCodeConvertedStorage, setCurrencyCodeConvertedStorage] = useLocalStorage('currencyCodeConverted', '')
-
-  const selectCurrencyCode = (action, value) => {
-    dispatch({ type: action, payload: value })
-  }
-
-  const changeCurrencyAmount = (action, value) => {
-    dispatch({ type: action, payload: value })
-  }
+  const [
+    codeCurrentLocationStorage,
+    setCodeCurrentLocationStorage,
+  ] = useLocalStorage('currencyCodeCurrentLocation', '')
+  const [
+    codeConvertedStorage,
+    setCodeConvertedStorage,
+  ] = useLocalStorage('currencyCodeConverted', '')
 
   useEffect(() => {
     dispatch({ type: USER_DATA_REQUEST })
   }, [])
+
+  const selectCurrencyCodeCurrentLocation = e => {
+    dispatch({
+      type: SET_LOCAL_CURRENCY_REQUEST,
+      payload: {
+        currentLocation: e.target.value,
+      },
+    })
+    setCodeCurrentLocationStorage(e.target.value)
+  }
+
+  const selectCurrencyCodeConverted = e => {
+    dispatch({
+      type: SET_LOCAL_CURRENCY_REQUEST,
+      payload: {
+        converted: e.target.value,
+      },
+    })
+    setCodeConvertedStorage(e.target.value)
+  }
 
   return (
     <Container>
@@ -48,26 +69,20 @@ const HomePage = () => {
       </Typography>
       <div className={classes.convertersContainer}>
       <Converter
-        dscr={'I have'}
+        description="I have"
         currencies={currencies}
-        currencyCode={currencyCodeCurrentLocationStorage || currencyCodeCurrentLocation}
-        selectCurrencyCode={e => {
-          selectCurrencyCode(SET_LOCAL_CURRENCY_REQUEST, { currencyCodeCurrentLocation: e.target.value })
-          setcurrencyCodeCurrentLocationStorage(e.target.value)
-        }}
-        currencyAmount={currencyAmountHave}
-        changeCurrencyAmount={e => changeCurrencyAmount(SET_AMOUNT_CURRENCY, Number(e.target.value))}
+        currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
+        selectCurrencyCode={selectCurrencyCodeCurrentLocation}
+        currencyAmount={String(currencyAmountHave)}
+        isConverted={false}
       />
       <Converter
-        dscr={'I want to buy'}
+        description="I want to buy"
         currencies={currencies}
-        currencyCode={currencyCodeConvertedStorage || currencyCodeConverted}
-        selectCurrencyCode={e => {
-          selectCurrencyCode(SET_LOCAL_CURRENCY_REQUEST, { currencyCodeConverted: e.target.value })
-          setCurrencyCodeConvertedStorage(e.target.value)
-        }}
-        currencyAmount={currencyAmountHave > 0 ? currencyAmountConverted : 0}
-        changeCurrencyAmount={e => changeCurrencyAmount(SET_AMOUNT_CURRENCY_CONVERTED, Number(e.target.value))}
+        currencyCode={codeConvertedStorage || codeConverted}
+        selectCurrencyCode={selectCurrencyCodeConverted}
+        currencyAmount={currencyAmountHave > 0 ? String(currencyAmountConverted) : '0'}
+        isConverted={true}
       />
       </div>
     </Container>

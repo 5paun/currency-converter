@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import { currenciesReducer } from './currencies'
+import { exchangeReducer } from './exchange '
 
 const rootReducer = combineReducers({
-  currencies: currenciesReducer,
+  exchange: exchangeReducer,
 })
 
 export default rootReducer

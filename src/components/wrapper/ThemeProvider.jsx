@@ -1,7 +1,13 @@
 import React from 'react'
 import { ThemeProvider } from '@material-ui/styles'
+import { createTheme } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
-import theme from '@/theme'
+import globalStyles from '@/theme'
+
+const theme = createTheme({
+  ...globalStyles,
+})
 
 const ThemeProviderWrapper = ({ children }) => (
     <ThemeProvider theme={theme}>
@@ -12,3 +18,7 @@ const ThemeProviderWrapper = ({ children }) => (
 )
 
 export default ThemeProviderWrapper
+
+ThemeProviderWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+}

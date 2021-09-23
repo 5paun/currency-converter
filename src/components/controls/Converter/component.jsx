@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import { useDispatch } from 'react-redux'
 import { makeStyles, MenuItem, Select, TextField, Typography } from '@material-ui/core'
 
-const useStyles = makeStyles({
+import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from 'src/constants'
+
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -16,17 +18,34 @@ const useStyles = makeStyles({
   select: {
     marginBottom: 20,
   },
-})
+}))
 
-const Converter = ({ dscr, currencies = [], currencyCode, selectCurrencyCode, currencyAmount, changeCurrencyAmount }) => {
+const Converter = ({
+  description,
+  currencies = [],
+  currencyCode,
+  selectCurrencyCode,
+  currencyAmount,
+  isConverted,
+}) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
+
+  const changeCurrencyAmount = e => {
+    dispatch({
+      type: isConverted
+        ? SET_AMOUNT_CURRENCY_CONVERTED
+        : SET_AMOUNT_CURRENCY,
+      payload: Number(e.target.value),
+    })
+  }
 
   return (
     <div className={classes.root}>
       <Typography className={classes.title} variant="h5"
        component="h5"
       >
-        {dscr}
+        {description}
       </Typography>
       <Select
         className={classes.select}
@@ -53,7 +72,7 @@ const Converter = ({ dscr, currencies = [], currencyCode, selectCurrencyCode, cu
         id="outlined-basic"
         label="current value"
         variant="outlined"
-        value={`${currencyAmount}`}
+        value={currencyAmount}
         onChange={changeCurrencyAmount}
       />
     </div>
@@ -63,10 +82,10 @@ const Converter = ({ dscr, currencies = [], currencyCode, selectCurrencyCode, cu
 export default Converter
 
 Converter.propTypes = {
-  dscr: PropTypes.string,
+  description: PropTypes.string,
   currencies: PropTypes.array.isRequired,
   currencyCode: PropTypes.string.isRequired,
-  currencyAmount: PropTypes.number.isRequired,
+  currencyAmount: PropTypes.string.isRequired,
   selectCurrencyCode: PropTypes.func.isRequired,
-  changeCurrencyAmount: PropTypes.func.isRequired,
+  isConverted: PropTypes.bool.isRequired,
 }

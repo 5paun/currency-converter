@@ -39,4 +39,4 @@ The installation process should be done with `yarn install`.
 
 ### Global styles and theme
 
-Global styles located in theme in `src/theme/index.js`. The theme provides sizing and color constants that should be used in whole application. Please do not hardcode units and colors directly in styled-components files, it should be always placed in theme.
+Global styles located in theme in `src/theme/index.js`. The theme provides sizing and color constants that should be used in whole application.

@@ -1,10 +1,10 @@
 import { all } from 'redux-saga/effects'
 
-import currenciesSagaWatcher from './currency'
+import currenciesWatcher from './currency'
 
 function * rootSaga () {
   yield all([
-    currenciesSagaWatcher(),
+    currenciesWatcher(),
   ])
 }
 

@@ -6,8 +6,6 @@ import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers'
 import rootSaga from './sagas'
 
-let store = null
-
 const sagaMiddleware = createSagaMiddleware()
 
 const createDevelopmentStore = () => {
@@ -24,14 +22,8 @@ const createProductionStore = () => {
   )
 }
 
-export const getStore = () => {
-  if (!store) {
-    store = process.env.NODE_ENV === 'development'
-      ? createDevelopmentStore()
-      : createProductionStore()
+export const store = process.env.NODE_ENV === 'development'
+  ? createDevelopmentStore()
+  : createProductionStore()
 
-    sagaMiddleware.run(rootSaga)
-  }
-
-  return store
-}
+sagaMiddleware.run(rootSaga)

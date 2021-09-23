@@ -4,15 +4,15 @@ import { CssBaseline } from '@material-ui/core'
 
 import HomePage from '@/components/pages/HomePage'
 import ThemeProviderWrapper from '@/components/wrapper/ThemeProvider'
-import { getStore } from '@/redux/store'
+import { store } from '@/redux/store'
 
 const App = () => {
   return (
-      <Provider store={getStore()}>
-        {/* <ThemeProviderWrapper> */}
+      <Provider store={store}>
+        <ThemeProviderWrapper>
           <CssBaseline />
           <HomePage />
-        {/* </ThemeProviderWrapper> */}
+        </ThemeProviderWrapper>
       </Provider>
   )
 }

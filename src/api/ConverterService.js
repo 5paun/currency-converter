@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { API_KEY_FOR_CURRENT_POSITION, URL_CONVERT_SELECT_CURRENCY, URL_GET_CURRENCIES, URL_GET_CURRENT_IP, URL_GET_CURRENT_POSITION } from '@/constants'
+import { URL_CONVERT_SELECT_CURRENCY, URL_GET_CURRENT_IP, URL_GET_CURRENT_POSITION } from '@/constants'
 
 export default class ConverterService {
   static async getCurrentIP () {
@@ -10,13 +10,9 @@ export default class ConverterService {
   static async getCurrentPosition (ip) {
     return axios.get(`${URL_GET_CURRENT_POSITION}${ip}`, {
       params: {
-        key: API_KEY_FOR_CURRENT_POSITION,
+        key: process.env.REACT_APP_API_KEY_CURRENT_POSITION,
       },
     })
-  }
-
-  static async getCurrencies () {
-    return axios.get(URL_GET_CURRENCIES)
   }
 
   static async convertSelectedCurrency (counterCode) {
