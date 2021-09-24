@@ -3,6 +3,7 @@ import { call, put, select, takeLatest } from '@redux-saga/core/effects'
 import {
   USER_DATA_REQUEST, USER_DATA_RESPONSE, SET_LOCAL_CURRENCY_REQUEST,
   SET_LOCAL_CURRENCY_RESPONSE, SET_LOCAL_CURRENCY_RESPONSE_FAIL, USER_DATA_RESPONSE_FAIL,
+  SWAP_PANELS,
 } from '@/constants'
 import ConverterService from '@/api/ConverterService'
 
@@ -41,4 +42,5 @@ function * convertSelectedCurrencyWorker () {
 export default function * currenciesWatcher () {
   yield takeLatest(USER_DATA_REQUEST, getCurrentIpWorker)
   yield takeLatest(SET_LOCAL_CURRENCY_REQUEST, convertSelectedCurrencyWorker)
+  yield takeLatest(SWAP_PANELS, convertSelectedCurrencyWorker)
 }

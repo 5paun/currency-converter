@@ -41,7 +41,7 @@ const Converter = ({
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ order: isConverted ? 2 : 0 }}>
       <Typography className={classes.title} variant="h5"
        component="h5"
       >

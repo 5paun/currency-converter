@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, makeStyles, Typography } from '@material-ui/core'
+import { Container, IconButton, makeStyles, Typography } from '@material-ui/core'
 
 import Converter from '@/components/controls/Converter'
-import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST } from '@/constants'
+import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
+import { SwapHoriz } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   convertersContainer: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 20,
   },
 })
@@ -40,6 +42,21 @@ const HomePage = () => {
     dispatch({ type: USER_DATA_REQUEST })
   }, [])
 
+  useEffect(() => {
+    if (codeCurrentLocationStorage) {
+      dispatch({
+        type: SET_LOCAL_CURRENCY_REQUEST,
+        payload: { id: 'left', selectedCurrency: codeCurrentLocationStorage },
+      })
+    }
+    if (codeConvertedStorage) {
+      dispatch({
+        type: SET_LOCAL_CURRENCY_REQUEST,
+        payload: { id: 'right', selectedCurrency: codeConvertedStorage },
+      })
+    }
+  }, [])
+
   const selectCurrencyCodeCurrentLocation = e => {
     dispatch({
       type: SET_LOCAL_CURRENCY_REQUEST,
@@ -56,23 +73,11 @@ const HomePage = () => {
     setCodeConvertedStorage(e.target.value)
   }
 
-  useEffect(() => {
-    // setTimeout(() => {
-    if (codeCurrentLocationStorage) {
-      dispatch({
-        type: SET_LOCAL_CURRENCY_REQUEST,
-        payload: { id: 'left', selectedCurrency: codeCurrentLocationStorage },
-      })
-    }
-    if (codeConvertedStorage) {
-      dispatch({
-        type: SET_LOCAL_CURRENCY_REQUEST,
-        payload: { id: 'left', selectedCurrency: codeConvertedStorage },
-      })
-    }
-
-    // }, 3000)
-  }, [])
+  const swapPanels = () => {
+    dispatch({ type: SWAP_PANELS })
+    setCodeCurrentLocationStorage(codeConverted)
+    setCodeConvertedStorage(codeCurrentLocation)
+  }
 
   return (
     <Container>
@@ -90,6 +95,11 @@ const HomePage = () => {
         currencyAmount={String(currencyAmountHave)}
         isConverted={false}
       />
+      <IconButton color="default" aria-label="upload picture"
+       component="span" onClick={swapPanels}
+      >
+        <SwapHoriz fontSize="large" />
+      </IconButton>
       <Converter
         description="I want to buy"
         currencies={currencies}
