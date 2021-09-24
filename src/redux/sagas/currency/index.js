@@ -11,10 +11,13 @@ function * getCurrentIpWorker () {
     const currentIP = yield call(ConverterService.getCurrentIP)
     // eslint-disable-next-line
     const currentPosition = yield call(ConverterService.getCurrentPosition, currentIP.data.ipAddress)
-    yield put({
-      type: USER_DATA_RESPONSE,
-      payload: currentPosition.data.currency.code.toLowerCase(),
-    })
+    const codeCurrentLocation = yield select(state => state.exchange.panels[0].selectedCurrency)
+    if (!codeCurrentLocation) {
+      yield put({
+        type: USER_DATA_RESPONSE,
+        payload: currentPosition.data.currency.code.toLowerCase(),
+      })
+    }
     yield call(convertSelectedCurrencyWorker)
   } catch (error) {
     yield put({ type: USER_DATA_RESPONSE_FAIL, payload: error.message })
@@ -23,11 +26,12 @@ function * getCurrentIpWorker () {
 
 function * convertSelectedCurrencyWorker () {
   try {
-    const codeCurrentLocation = yield select(state => state.exchange.code.currentLocation)
+    const codeCurrentLocation = yield select(state => state.exchange.panels[0].selectedCurrency)
     if (codeCurrentLocation) {
       const response = yield call(ConverterService.convertSelectedCurrency, codeCurrentLocation)
-      console.log('response', response)
-      yield put({ type: SET_LOCAL_CURRENCY_RESPONSE, payload: response.data })
+      const transformData = Object.entries(response.data[codeCurrentLocation])
+        .map(([key, value]) => ({ [key]: value }))
+      yield put({ type: SET_LOCAL_CURRENCY_RESPONSE, payload: transformData })
     }
   } catch (error) {
     yield put({ type: SET_LOCAL_CURRENCY_RESPONSE_FAIL, payload: error.message })

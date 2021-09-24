@@ -21,11 +21,11 @@ const HomePage = () => {
 
   const currencies = Object.entries(data).map(item => ({ value: item[0], label: item[1] }))
   const codeCurrentLocation = useSelector(state =>
-    state.exchange.code.currentLocation,
+    state.exchange.panels[0].selectedCurrency,
   )
-  const codeConverted = useSelector(state => state.exchange.code.converted)
-  const currencyAmountHave = useSelector(state => state.exchange.currency.amountHave)
-  const currencyAmountConverted = useSelector(state => state.exchange.currency.amountConverted)
+  const codeConverted = useSelector(state => state.exchange.panels[1].selectedCurrency)
+  const currencyAmountHave = useSelector(state => state.exchange.panels[0].amount)
+  const currencyAmountConverted = useSelector(state => state.exchange.panels[1].amount)
 
   const [
     codeCurrentLocationStorage,
@@ -43,9 +43,7 @@ const HomePage = () => {
   const selectCurrencyCodeCurrentLocation = e => {
     dispatch({
       type: SET_LOCAL_CURRENCY_REQUEST,
-      payload: {
-        currentLocation: e.target.value,
-      },
+      payload: { id: 'left', selectedCurrency: e.target.value },
     })
     setCodeCurrentLocationStorage(e.target.value)
   }
@@ -53,27 +51,23 @@ const HomePage = () => {
   const selectCurrencyCodeConverted = e => {
     dispatch({
       type: SET_LOCAL_CURRENCY_REQUEST,
-      payload: {
-        converted: e.target.value,
-      },
+      payload: { id: 'right', selectedCurrency: e.target.value },
     })
     setCodeConvertedStorage(e.target.value)
   }
-
-  console.log('codeConvertedStorage', codeConvertedStorage)
 
   useEffect(() => {
     // setTimeout(() => {
     if (codeCurrentLocationStorage) {
       dispatch({
         type: SET_LOCAL_CURRENCY_REQUEST,
-        payload: { currentLocation: codeCurrentLocationStorage },
+        payload: { id: 'left', selectedCurrency: codeCurrentLocationStorage },
       })
     }
     if (codeConvertedStorage) {
       dispatch({
         type: SET_LOCAL_CURRENCY_REQUEST,
-        payload: { converted: codeConvertedStorage },
+        payload: { id: 'left', selectedCurrency: codeConvertedStorage },
       })
     }
 
