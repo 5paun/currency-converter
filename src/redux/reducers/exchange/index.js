@@ -118,7 +118,6 @@ export function exchangeReducer (state = initialState, action) {
       }
     }
     case SWAP_PANELS: {
-      console.log('exchange', exchange)
       return {
         ...state,
         panels: [...state.panels.map(item => {

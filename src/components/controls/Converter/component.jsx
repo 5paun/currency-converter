@@ -1,22 +1,65 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { makeStyles, MenuItem, Select, TextField, Typography } from '@material-ui/core'
+import { FormControl, InputLabel, makeStyles, NativeSelect, TextField, useMediaQuery } from '@material-ui/core'
 
 import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from 'src/constants'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  container: {
     display: 'flex',
     flexDirection: 'column',
+    padding: 20,
     flex: 1,
     maxWidth: '45%',
+    border: `3px solid ${theme.colors.borderGrey}`,
+    borderRadius: '8px',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 'unset',
+      width: '100%',
+      margin: '10px 0',
+    },
   },
-  title: {
-    marginBottom: 10,
+  label: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   select: {
     marginBottom: 20,
+    '&::before': {
+      borderBottom: `2px solid ${theme.colors.borderBronze}`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      order: 0,
+      marginBottom: 10,
+
+      '&.MuiInput-formControl': {
+        marginTop: 0,
+      },
+    },
+  },
+  selectConverted: {
+    [theme.breakpoints.down('xs')]: {
+      order: 1,
+      marginBottom: 0,
+
+      '&.MuiInput-formControl': {
+        marginTop: 5,
+      },
+    },
+  },
+  input: {
+    margin: '5px 0',
+
+    '& fieldset': {
+      border: `2px solid ${theme.colors.borderBronze}`,
+    },
+  },
+  inputConverted: {
+    [theme.breakpoints.down('xs')]: {
+      order: 0,
+    },
   },
 }))
 
@@ -30,6 +73,7 @@ const Converter = ({
 }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
 
   const changeCurrencyAmount = e => {
     dispatch({
@@ -41,40 +85,44 @@ const Converter = ({
   }
 
   return (
-    <div className={classes.root} style={{ order: isConverted ? 2 : 0 }}>
-      <Typography className={classes.title} variant="h5"
-       component="h5"
-      >
-        {description}
-      </Typography>
-      <Select
-        className={classes.select}
-        placeholder={'Choose currency'}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={currencyCode}
-        label="Age"
-        onChange={selectCurrencyCode}
-      >
-        {currencies.map(currency => {
-          return (
-            <MenuItem
-             key={currency.value}
-             value={currency.value}
-            >
-              {currency.label}
-            </MenuItem>
-          )
-        })}
-      </Select>
-      <TextField
-        type="number"
-        id="outlined-basic"
-        label="current value"
-        variant="outlined"
-        value={currencyAmount}
-        onChange={changeCurrencyAmount}
-      />
+    <div className={classes.container}>
+      <FormControl fullWidth>
+        <InputLabel className={classes.label} variant="standard"
+          htmlFor="uncontrolled-native"
+        >
+          {description}
+        </InputLabel>
+        <NativeSelect
+          className={`${classes.select} ${isConverted ? classes.selectConverted : ''}`}
+          inputProps={{
+            name: 'age',
+            id: 'uncontrolled-native',
+          }}
+          placeholder={'Choose currency'}
+          value={currencyCode}
+          onChange={selectCurrencyCode}
+        >
+          {currencies.map(currency => {
+            return (
+              <option
+              key={currency.value}
+              value={currency.value}
+              >
+                {currency.label}
+              </option>
+            )
+          })}
+        </NativeSelect>
+        <TextField
+          className={`${classes.input} ${isConverted ? classes.inputConverted : ''}`}
+          type="number"
+          id="outlined-basic"
+          label={`${isMobile ? description : 'current value'}`}
+          variant="outlined"
+          value={currencyAmount}
+          onChange={changeCurrencyAmount}
+        />
+      </FormControl>
     </div>
   )
 }
