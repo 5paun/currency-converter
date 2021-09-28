@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { FormControl, InputLabel, makeStyles, NativeSelect, TextField, useMediaQuery } from '@material-ui/core'
+import { FormControl, InputLabel, makeStyles, MenuItem, Select, TextField, useMediaQuery } from '@material-ui/core'
 
 import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from 'src/constants'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -74,6 +75,7 @@ const Converter = ({
   const classes = useStyles()
   const dispatch = useDispatch()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  const { t } = useTranslation()
 
   const changeCurrencyAmount = e => {
     dispatch({
@@ -90,34 +92,31 @@ const Converter = ({
         <InputLabel className={classes.label} variant="standard"
           htmlFor="uncontrolled-native"
         >
-          {description}
+          {t(description)}
         </InputLabel>
-        <NativeSelect
+        <Select
           className={`${classes.select} ${isConverted ? classes.selectConverted : ''}`}
-          inputProps={{
-            name: 'age',
-            id: 'uncontrolled-native',
-          }}
+          id="uncontrolled-native"
           placeholder={'Choose currency'}
           value={currencyCode}
           onChange={selectCurrencyCode}
         >
           {currencies.map(currency => {
             return (
-              <option
+              <MenuItem
               key={currency.value}
               value={currency.value}
               >
                 {currency.label}
-              </option>
+              </MenuItem>
             )
           })}
-        </NativeSelect>
+        </Select>
         <TextField
           className={`${classes.input} ${isConverted ? classes.inputConverted : ''}`}
           type="number"
           id="outlined-basic"
-          label={`${isMobile ? description : 'current value'}`}
+          label={`${isMobile ? t(description) : 'current value'}`}
           variant="outlined"
           value={currencyAmount}
           onChange={changeCurrencyAmount}

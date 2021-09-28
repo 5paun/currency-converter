@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, IconButton, makeStyles, Typography, useMediaQuery } from '@material-ui/core'
+import { SwapHoriz, Sync } from '@material-ui/icons'
+import { useTranslation } from 'react-i18next'
 
 import Converter from '@/components/controls/Converter'
 import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
-import { SwapHoriz, Sync } from '@material-ui/icons'
+import i18n from '@/i18n'
+import { log } from '@/utils/helpers'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -27,13 +30,22 @@ const useStyles = makeStyles(theme => ({
     },
   },
   title: {
+    fontFamily: theme.fontFamily,
     fontSize: theme.fontSizes.superVeryBig,
-    marginBottom: 20,
+    marginBottom: 15,
     color: theme.colors.borderGreen,
     fontWeight: theme.fontWeights.bold,
     [theme.breakpoints.down('xs')]: {
       fontSize: theme.fontSizes.veryBig,
-      marginBottom: 5,
+      marginBottom: 10,
+    },
+  },
+  date: {
+    fontSize: theme.fontSizes.big,
+    marginBottom: 5,
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 0,
+      fontSize: theme.fontSizes.normal,
     },
   },
   convertersContainer: {
@@ -72,6 +84,7 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
+  const { t } = useTranslation()
 
   const currencies = Object.entries(data).map(item => ({ value: item[0], label: item[1] }))
   const codeCurrentLocation = useSelector(state =>
@@ -131,17 +144,24 @@ const HomePage = () => {
     setCodeConvertedStorage(codeCurrentLocation)
   }
 
+  log('isMobile', isMobile)
+
   return (
     <Container className={classes.container}>
       <div className={classes.wrapper}>
         <Typography variant="h3" component="h1"
         align="center" className={classes.title}
         >
-          Currency Converter
+          {t('main title')}
+        </Typography>
+        <Typography variant="h4" component="h4"
+          className={classes.date}
+        >
+           {t('date')} {new Date().toLocaleDateString(i18n.language)}
         </Typography>
         <div className={classes.convertersContainer}>
           <Converter
-            description="I have"
+            description="my label description"
             currencies={currencies}
             currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
             selectCurrencyCode={selectCurrencyCodeCurrentLocation}
@@ -158,7 +178,7 @@ const HomePage = () => {
             }
           </IconButton>
           <Converter
-            description="I want to buy"
+            description="converted label description"
             currencies={currencies}
             currencyCode={codeConvertedStorage || codeConverted}
             selectCurrencyCode={selectCurrencyCodeConverted}

@@ -3,10 +3,10 @@ import { ThemeProvider } from '@material-ui/styles'
 import { createTheme } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
-import globalStyles from '@/theme'
+import muiTheme from '@/theme'
 
 const theme = createTheme({
-  ...globalStyles,
+  ...muiTheme,
 })
 
 const ThemeProviderWrapper = ({ children }) => (

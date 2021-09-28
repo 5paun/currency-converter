@@ -1,4 +1,15 @@
-import { darkGrey, darkRed, red, blue, lightGrey, transparentBlue, white, darkGreen, grey, bronze } from '@/constants/color'
+import {
+  darkGrey,
+  darkRed,
+  red,
+  blue,
+  lightGrey,
+  transparentBlue,
+  white,
+  darkGreen,
+  grey,
+  bronze,
+} from '@/constants/color'
 
 export default {
   colors: {
@@ -31,7 +42,7 @@ export default {
     normal: 400,
     bold: 700,
   },
-  fontFamily: ['Lato, "Helvetica Neue", Arial'],
+  fontFamily: ['Roboto, Arial'],
   breakpoints: {
     values: {
       xs: 0,
@@ -39,6 +50,15 @@ export default {
       md: 900,
       lg: 1200,
       xl: 1536,
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'red',
+        },
+      },
     },
   },
 }
