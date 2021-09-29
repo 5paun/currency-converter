@@ -3,13 +3,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useStyles from './styles'
+import { useTranslation } from 'react-i18next'
 
 const LanguageSelect = ({ label, options, value, onSelect }) => {
   const classes = useStyles()
+  const { t } = useTranslation()
 
   return (
     <FormControl>
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <InputLabel id="demo-simple-select-label">{t(label)}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
@@ -21,7 +23,7 @@ const LanguageSelect = ({ label, options, value, onSelect }) => {
           return (
               <MenuItem key={option.value} value={option.value}>
                 <div className={classes.optionWrap}>
-                  <span>{option.value}</span>
+                  <span className={classes.optionLabel}>{t(option.label)}</span>
                   {option.icon && <img src={option.icon} alt={option.value}
                   className={classes.optionIcon}
                                   />}
@@ -39,6 +41,7 @@ export default LanguageSelect
 LanguageSelect.propTypes = {
   label: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     icon: PropTypes.string,
   })),

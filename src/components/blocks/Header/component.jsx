@@ -7,28 +7,39 @@ import { Container } from '@material-ui/core'
 import useStyles from './styles'
 import enFlag from '@/assets/img/en.png'
 import ruFlag from '@/assets/img/ru.png'
+import heFlag from '@/assets/img/he.png'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import { CHANGE_THEME } from '@/constants'
 
 const languages = [
   {
+    label: 'languages.en',
     value: 'en',
     icon: enFlag,
   },
   {
+    label: 'languages.ru',
     value: 'ru',
     icon: ruFlag,
+  },
+  {
+    label: 'languages.he',
+    value: 'he',
+    icon: heFlag,
   },
 ]
 
 const themes = [
   {
+    label: 'theme.light',
     value: 'light',
   },
   {
+    label: 'theme.dark',
     value: 'dark',
   },
   {
+    label: 'theme.contrast',
     value: 'contrast',
   },
 ]
@@ -43,21 +54,26 @@ const Header = () => {
 
   useEffect(() => {
     if (currentLanguageStorage) {
-      setLanguage(currentLanguageStorage)
-      i18n.changeLanguage(currentLanguageStorage)
+      changeLanguage(currentLanguageStorage)
     }
   }, [])
 
   const classes = useStyles({ currentTheme })
 
-  const changeLanguage = e => {
-    const lang = e.target.value
+  const changeLanguage = lang => {
     setLanguage(lang)
-    setCurrentLanguageStorage(lang)
     i18n.changeLanguage(lang)
+    document.documentElement.setAttribute('lang', lang)
+    document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr')
   }
 
-  const changeTheme = e => {
+  const changeLanguageHandle = e => {
+    const lang = e.target.value
+    setCurrentLanguageStorage(lang)
+    changeLanguage(lang)
+  }
+
+  const changeThemeHandle = e => {
     const theme = e.target.value
     dispatch({ type: CHANGE_THEME, payload: theme })
   }
@@ -67,16 +83,16 @@ const Header = () => {
       <Container>
           <div className={classes.wrapper}>
             <Select
-              label="theme"
+              label="theme.theme"
               options={themes}
               value={currentTheme}
-              onSelect={changeTheme}
+              onSelect={changeThemeHandle}
             />
             <Select
               label="language"
               options={languages}
               value={language}
-              onSelect={changeLanguage}
+              onSelect={changeLanguageHandle}
             />
           </div>
       </Container>

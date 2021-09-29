@@ -1,0 +1,14 @@
+{
+  "main title": "ממיר מטבע",
+  "my label description": "יש לי",
+  "converted label description": "אני רוצה לקנות",
+  "label for input": "ערך נוכחי",
+  "date": "נתונים עבור",
+  "language": "שפות",
+  "theme": {
+    "theme": "נושא",
+    "light": "אוֹר",
+    "dark": "אפל",
+    "contrast": "בניגוד"
+  }
+}

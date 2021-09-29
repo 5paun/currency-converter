@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from '@/constants'
 import useStyles from './styles'
+import { log } from 'src/utils/helpers'
 
 const Converter = ({
   description,
@@ -18,8 +19,8 @@ const Converter = ({
   const currentTheme = useSelector(state => state.general.theme)
   const dispatch = useDispatch()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
-  const { t } = useTranslation()
-  const classes = useStyles({ currentTheme })
+  const { t, i18n } = useTranslation()
+  const classes = useStyles({ currentTheme, dir: i18n.language })
 
   const changeCurrencyAmount = e => {
     dispatch({
@@ -60,7 +61,7 @@ const Converter = ({
           className={`${classes.input} ${isConverted ? classes.inputConverted : ''}`}
           type="number"
           id="outlined-basic"
-          label={`${isMobile ? t(description) : 'current value'}`}
+          label={`${isMobile ? t(description) : t('label for input')}`}
           variant="outlined"
           value={currencyAmount}
           onChange={changeCurrencyAmount}

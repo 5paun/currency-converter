@@ -78,7 +78,7 @@ const HomePage = () => {
     setCodeConvertedStorage(codeCurrentLocation)
   }
 
-  log('isMobile', isMobile)
+  log('i18n.language', i18n.language)
 
   return (
     <Container className={classes.mainContainer}>

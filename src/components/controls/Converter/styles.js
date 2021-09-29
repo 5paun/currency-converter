@@ -16,6 +16,9 @@ export default makeStyles(theme => ({
     },
   },
   label: {
+    left: props => props.dir === 'he' ? 'unset' : 0,
+    right: props => props.dir === 'he' ? 0 : 'unset',
+    transformOrigin: props => props.dir === 'he' ? 'top right' : 'top left',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },

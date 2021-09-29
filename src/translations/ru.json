@@ -3,5 +3,12 @@
   "my label description": "У меня есть",
   "converted label description": "Хочу приобрести",
   "label for input": "текущее значение",
-  "date": "Данные за"
+  "date": "Данные за",
+  "language": "Язык",
+  "theme": {
+    "theme": "Тема",
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "contrast": "Контрастная"
+  }
 }

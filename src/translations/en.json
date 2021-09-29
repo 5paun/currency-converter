@@ -3,5 +3,12 @@
   "my label description": "I have",
   "converted label description": "I want to buy",
   "label for input": "current value",
-  "date": "Data for"
+  "date": "Data for",
+  "language": "Language",
+  "theme": {
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "contrast": "Contrast"
+  }
 }
