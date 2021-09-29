@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Select from '@/components/controls/Select'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { Container } from '@material-ui/core'
 
-import useStyles from './styles'
 import enFlag from '@/assets/img/en.png'
 import ruFlag from '@/assets/img/ru.png'
 import heFlag from '@/assets/img/he.png'
 import useLocalStorage from '@/hooks/useLocalStorage'
+import Select from '@/components/controls/Select'
 import { CHANGE_THEME } from '@/constants'
+
+import useStyles from './styles'
 
 const languages = [
   {

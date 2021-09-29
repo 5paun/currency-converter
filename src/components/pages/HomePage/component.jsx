@@ -10,6 +10,7 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
 import { log } from '@/utils/helpers'
 import Header from '@/components/blocks/Header'
+
 import useStyles from './styles'
 
 const HomePage = () => {

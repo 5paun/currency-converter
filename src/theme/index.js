@@ -14,7 +14,7 @@ import {
   darkGreyContrast,
   greyContrast,
   lightGreyContrast,
-} from '@/constants/color'
+} from '@/constants'
 
 export default {
   colors: {

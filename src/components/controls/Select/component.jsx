@@ -1,9 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
-import { useTranslation } from 'react-i18next'
 
 const LanguageSelect = ({ label, options, value, onSelect }) => {
   const classes = useStyles()

@@ -5,8 +5,8 @@ import { FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery } f
 import { useTranslation } from 'react-i18next'
 
 import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from '@/constants'
+
 import useStyles from './styles'
-import { log } from 'src/utils/helpers'
 
 const Converter = ({
   description,
