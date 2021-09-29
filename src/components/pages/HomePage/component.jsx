@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, IconButton, makeStyles, Typography, useMediaQuery } from '@material-ui/core'
+import { Container, IconButton, Typography, useMediaQuery } from '@material-ui/core'
 import { SwapHoriz, Sync } from '@material-ui/icons'
 import { useTranslation } from 'react-i18next'
 
@@ -8,83 +8,15 @@ import Converter from '@/components/controls/Converter'
 import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
-import i18n from '@/i18n'
 import { log } from '@/utils/helpers'
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    backgroundColor: theme.colors.backgroundLightGrey,
-    padding: '24px',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  wrapper: {
-    padding: 50,
-    background: theme.colors.backgroundGrey,
-    borderRadius: '12px',
-    border: `4px solid ${theme.colors.borderGreen}`,
-    [theme.breakpoints.down('xs')]: {
-      padding: '20px 15px',
-    },
-  },
-  title: {
-    fontFamily: theme.fontFamily,
-    fontSize: theme.fontSizes.superVeryBig,
-    marginBottom: 15,
-    color: theme.colors.borderGreen,
-    fontWeight: theme.fontWeights.bold,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: theme.fontSizes.veryBig,
-      marginBottom: 10,
-    },
-  },
-  date: {
-    fontSize: theme.fontSizes.big,
-    marginBottom: 5,
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: 0,
-      fontSize: theme.fontSizes.normal,
-    },
-  },
-  convertersContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'relative',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-  swapIcon: {
-    [theme.breakpoints.down('xs')]: {
-      border: `3px solid ${theme.colors.borderGreen}`,
-      background: theme.colors.backgroundGrey,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: '50%',
-      width: 60,
-      height: 60,
-      position: 'absolute',
-      top: '50%',
-      right: '5%',
-      transform: 'translateY(-50%)',
-      zIndex: 1,
-
-      '&:hover': {
-        background: theme.colors.backgroundGrey,
-      },
-    },
-  },
-}))
+import Header from '@/components/blocks/Header'
+import useStyles from './styles'
 
 const HomePage = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const currencies = Object.entries(data).map(item => ({ value: item[0], label: item[1] }))
   const codeCurrentLocation = useSelector(state =>
@@ -147,44 +79,47 @@ const HomePage = () => {
   log('isMobile', isMobile)
 
   return (
-    <Container className={classes.container}>
-      <div className={classes.wrapper}>
-        <Typography variant="h3" component="h1"
-        align="center" className={classes.title}
-        >
-          {t('main title')}
-        </Typography>
-        <Typography variant="h4" component="h4"
-          className={classes.date}
-        >
-           {t('date')} {new Date().toLocaleDateString(i18n.language)}
-        </Typography>
-        <div className={classes.convertersContainer}>
-          <Converter
-            description="my label description"
-            currencies={currencies}
-            currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
-            selectCurrencyCode={selectCurrencyCodeCurrentLocation}
-            currencyAmount={String(currencyAmountHave)}
-            isConverted={false}
-          />
-          <IconButton color="default" aria-label="upload picture"
-          component="span" onClick={swapPanels}
-          className={classes.swapIcon}
+    <Container className={classes.mainContainer}>
+      <Header />
+      <div className={classes.container}>
+        <div className={classes.wrapper}>
+          <Typography variant="h3" component="h1"
+          align="center" className={classes.title}
           >
-            {isMobile
-              ? <Sync fontSize="large" />
-              : <SwapHoriz fontSize="large" />
-            }
-          </IconButton>
-          <Converter
-            description="converted label description"
-            currencies={currencies}
-            currencyCode={codeConvertedStorage || codeConverted}
-            selectCurrencyCode={selectCurrencyCodeConverted}
-            currencyAmount={currencyAmountHave > 0 ? String(currencyAmountConverted) : '0'}
-            isConverted={true}
-          />
+            {t('main title')}
+          </Typography>
+          <Typography variant="h4" component="h4"
+            className={classes.date}
+          >
+            {t('date')} {new Date().toLocaleDateString(i18n.language)}
+          </Typography>
+          <div className={classes.convertersContainer}>
+            <Converter
+              description="my label description"
+              currencies={currencies}
+              currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
+              selectCurrencyCode={selectCurrencyCodeCurrentLocation}
+              currencyAmount={String(currencyAmountHave)}
+              isConverted={false}
+            />
+            <IconButton color="default" aria-label="upload picture"
+            component="span" onClick={swapPanels}
+            className={classes.swapIcon}
+            >
+              {isMobile
+                ? <Sync fontSize="large" />
+                : <SwapHoriz fontSize="large" />
+              }
+            </IconButton>
+            <Converter
+              description="converted label description"
+              currencies={currencies}
+              currencyCode={codeConvertedStorage || codeConverted}
+              selectCurrencyCode={selectCurrencyCodeConverted}
+              currencyAmount={currencyAmountHave > 0 ? String(currencyAmountConverted) : '0'}
+              isConverted={true}
+            />
+          </div>
         </div>
       </div>
     </Container>

@@ -11,7 +11,7 @@ i18n
       ru: { translation: ru },
       en: { translation: en },
     },
-    fallbackLng: 'ru',
+    fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     interpolation: {
       escapeValue: false,
