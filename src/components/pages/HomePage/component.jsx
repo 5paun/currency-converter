@@ -13,8 +13,6 @@ import Header from '@/components/blocks/Header'
 import useStyles from './styles'
 
 const HomePage = () => {
-  const dispatch = useDispatch()
-  const classes = useStyles()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const { t, i18n } = useTranslation()
 
@@ -22,9 +20,13 @@ const HomePage = () => {
   const codeCurrentLocation = useSelector(state =>
     state.exchange.panels[0].selectedCurrency,
   )
+  const dispatch = useDispatch()
+  const currentTheme = useSelector(state => state.general.theme)
   const codeConverted = useSelector(state => state.exchange.panels[1].selectedCurrency)
   const currencyAmountHave = useSelector(state => state.exchange.panels[0].amount)
   const currencyAmountConverted = useSelector(state => state.exchange.panels[1].amount)
+
+  const classes = useStyles({ currentTheme })
 
   const [
     codeCurrentLocationStorage,

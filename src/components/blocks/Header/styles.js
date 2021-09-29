@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles(theme => ({
   container: {
-    backgroundColor: theme.colors.borderBronze,
+    backgroundColor: props => theme.themes[props.currentTheme].backgroundHeader,
     position: 'absolute',
     top: 0,
     left: 0,
@@ -16,6 +16,6 @@ export default makeStyles(theme => ({
   },
   wrapper: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
 }))

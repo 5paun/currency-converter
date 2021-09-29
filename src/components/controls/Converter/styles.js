@@ -7,7 +7,7 @@ export default makeStyles(theme => ({
     padding: 20,
     flex: 1,
     maxWidth: '45%',
-    border: `3px solid ${theme.colors.borderGrey}`,
+    border: props => `3px solid ${theme.themes[props.currentTheme].borderPanel}`,
     borderRadius: '8px',
     [theme.breakpoints.down('sm')]: {
       maxWidth: 'unset',
@@ -23,7 +23,7 @@ export default makeStyles(theme => ({
   select: {
     marginBottom: 20,
     '&::before': {
-      borderBottom: `2px solid ${theme.colors.borderBronze}`,
+      borderBottom: props => `2px solid ${theme.themes[props.currentTheme].borderControl}`,
     },
     [theme.breakpoints.down('xs')]: {
       order: 0,
@@ -48,7 +48,7 @@ export default makeStyles(theme => ({
     margin: '5px 0',
 
     '& fieldset': {
-      border: `2px solid ${theme.colors.borderBronze}`,
+      border: props => `2px solid ${theme.themes[props.currentTheme].borderControl}`,
     },
   },
   inputConverted: {

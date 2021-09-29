@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 export default makeStyles(theme => ({
   mainContainer: {
-    backgroundColor: theme.colors.backgroundLightGrey,
+    backgroundColor: props => theme.themes[props.currentTheme].backgroundPage,
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -18,9 +18,9 @@ export default makeStyles(theme => ({
   },
   wrapper: {
     padding: 50,
-    background: theme.colors.backgroundGrey,
+    background: props => theme.themes[props.currentTheme].backgroundApp,
     borderRadius: '12px',
-    border: `4px solid ${theme.colors.borderGreen}`,
+    border: props => `4px solid ${theme.themes[props.currentTheme].borderApp}`,
     [theme.breakpoints.down('xs')]: {
       padding: '20px 15px',
     },
@@ -29,7 +29,7 @@ export default makeStyles(theme => ({
     fontFamily: theme.fontFamily,
     fontSize: theme.fontSizes.superVeryBig,
     marginBottom: 15,
-    color: theme.colors.borderGreen,
+    color: props => theme.themes[props.currentTheme].title,
     fontWeight: theme.fontWeights.bold,
     [theme.breakpoints.down('xs')]: {
       fontSize: theme.fontSizes.veryBig,
@@ -55,8 +55,8 @@ export default makeStyles(theme => ({
   },
   swapIcon: {
     [theme.breakpoints.down('xs')]: {
-      border: `3px solid ${theme.colors.borderGreen}`,
-      background: theme.colors.backgroundGrey,
+      border: props => `3px solid ${theme.themes[props.currentTheme].borderApp}`,
+      background: props => theme.themes[props.currentTheme].backgroundApp,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -70,7 +70,7 @@ export default makeStyles(theme => ({
       zIndex: 1,
 
       '&:hover': {
-        background: theme.colors.backgroundGrey,
+        background: props => theme.themes[props.currentTheme].backgroundApp,
       },
     },
   },

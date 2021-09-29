@@ -9,6 +9,11 @@ import {
   darkGreen,
   grey,
   bronze,
+  bronzeContrast,
+  darkGreenContrast,
+  darkGreyContrast,
+  greyContrast,
+  lightGreyContrast,
 } from '@/constants/color'
 
 export default {
@@ -59,6 +64,35 @@ export default {
           backgroundColor: 'red',
         },
       },
+    },
+  },
+  themes: {
+    light: {
+      backgroundPage: lightGrey,
+      backgroundHeader: bronze,
+      backgroundApp: grey,
+      borderControl: bronze,
+      borderPanel: darkGrey,
+      borderApp: darkGreen,
+      title: darkGreen,
+    },
+    dark: {
+      backgroundPage: darkGreen,
+      backgroundHeader: bronze,
+      backgroundApp: darkGrey,
+      borderControl: bronze,
+      borderPanel: grey,
+      borderApp: lightGrey,
+      title: lightGrey,
+    },
+    contrast: {
+      backgroundPage: lightGreyContrast,
+      backgroundHeader: bronzeContrast,
+      backgroundApp: greyContrast,
+      borderControl: bronzeContrast,
+      borderPanel: darkGreyContrast,
+      borderApp: darkGreenContrast,
+      title: darkGreenContrast,
     },
   },
 }

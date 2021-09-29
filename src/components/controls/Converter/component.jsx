@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery } from '@material-ui/core'
-
-import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from 'src/constants'
 import { useTranslation } from 'react-i18next'
+
+import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from '@/constants'
 import useStyles from './styles'
 
 const Converter = ({
@@ -15,10 +15,11 @@ const Converter = ({
   currencyAmount,
   isConverted,
 }) => {
-  const classes = useStyles()
+  const currentTheme = useSelector(state => state.general.theme)
   const dispatch = useDispatch()
   const isMobile = useMediaQuery(theme => theme.breakpoints.down('xs'))
   const { t } = useTranslation()
+  const classes = useStyles({ currentTheme })
 
   const changeCurrencyAmount = e => {
     dispatch({
