@@ -11,6 +11,7 @@ import Select from '@/components/controls/Select'
 import { CHANGE_THEME } from '@/constants'
 
 import useStyles from './styles'
+import { Helmet } from 'react-helmet'
 
 const languages = [
   {
@@ -64,8 +65,6 @@ const Header = () => {
   const changeLanguage = lang => {
     setLanguage(lang)
     i18n.changeLanguage(lang)
-    document.documentElement.setAttribute('lang', lang)
-    document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr')
   }
 
   const changeLanguageHandle = e => {
@@ -81,6 +80,7 @@ const Header = () => {
 
   return (
     <header className={classes.container}>
+      <Helmet htmlAttributes={{ lang: language, dir: language === 'he' ? 'rtl' : 'ltr' }}/>
       <Container>
           <div className={classes.wrapper}>
             <Select
