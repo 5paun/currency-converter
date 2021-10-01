@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Container } from '@material-ui/core'
+import { Container } from '@mui/material'
+import { Helmet } from 'react-helmet'
 
 import enFlag from '@/assets/img/en.png'
 import ruFlag from '@/assets/img/ru.png'
@@ -11,7 +12,6 @@ import Select from '@/components/controls/Select'
 import { CHANGE_THEME } from '@/constants'
 
 import useStyles from './styles'
-import { Helmet } from 'react-helmet'
 
 const languages = [
   {

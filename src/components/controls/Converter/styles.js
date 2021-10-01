@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 
 export default makeStyles(theme => ({
   container: {
@@ -25,7 +25,8 @@ export default makeStyles(theme => ({
   },
   select: {
     marginBottom: 20,
-    '&::before': {
+    // Что за дичь? Пришлось увеличить специфичность селектора, чтобы не применять импотента!!
+    '&.MuiInputBase-formControl::before': {
       borderBottom: props => `2px solid ${theme.themes[props.currentTheme].borderControl}`,
     },
     [theme.breakpoints.down('xs')]: {

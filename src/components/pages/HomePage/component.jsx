@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, IconButton, Typography, useMediaQuery } from '@material-ui/core'
-import { SwapHoriz, Sync } from '@material-ui/icons'
+import { Button, Container, IconButton, Typography, useMediaQuery } from '@mui/material'
+import { SwapHoriz, Sync, Timeline } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
+import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts'
 
 import Converter from '@/components/controls/Converter'
-import { USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS } from '@/constants'
+import {
+  USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS,
+  SET_CURRENCY_HISTORY_REQUEST, CLEAR_WEEKLY_HISTORY,
+} from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
-import { log } from '@/utils/helpers'
+import { log, getDateForWeek } from '@/utils/helpers'
 import Header from '@/components/blocks/Header'
+import Modal from '@/components/blocks/Modal'
 
 import useStyles from './styles'
 
@@ -26,6 +32,9 @@ const HomePage = () => {
   const codeConverted = useSelector(state => state.exchange.panels[1].selectedCurrency)
   const currencyAmountHave = useSelector(state => state.exchange.panels[0].amount)
   const currencyAmountConverted = useSelector(state => state.exchange.panels[1].amount)
+  const weeklyHistoryRates = useSelector(state => state.exchange.weeklyHistoryRates)
+
+  const [modalIsVisible, setModalIsVisible] = useState(false)
 
   const classes = useStyles({ currentTheme })
 
@@ -79,53 +88,99 @@ const HomePage = () => {
     setCodeConvertedStorage(codeCurrentLocation)
   }
 
-  log('i18n.language', i18n.language)
+  const openModal = () => {
+    const date = getDateForWeek()
+
+    setModalIsVisible(true)
+    dispatch({ type: SET_CURRENCY_HISTORY_REQUEST, payload: date })
+  }
+
+  const closeModal = () => {
+    setModalIsVisible(false)
+    dispatch({ type: CLEAR_WEEKLY_HISTORY })
+  }
+
+  const sortAndTransformWeeklyRates = arr => {
+    const sortedData = [...arr].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    log('sortedData', sortedData)
+    const result = sortedData.map(item => item.currency)
+    return result
+  }
+
+  const options = {
+    title: {
+      text: 'My chart',
+    },
+    series: [{
+      data: sortAndTransformWeeklyRates(weeklyHistoryRates),
+    }],
+  }
 
   return (
-    <Container className={classes.mainContainer}>
-      <Header />
-      <div className={classes.container}>
-        <div className={classes.wrapper}>
-          <Typography variant="h3" component="h1"
-          align="center" className={classes.title}
-          >
-            {t('main title')}
-          </Typography>
-          <Typography variant="h4" component="h4"
-            className={classes.date}
-          >
-            {t('date')} {new Date().toLocaleDateString(i18n.language)}
-          </Typography>
-          <div className={classes.convertersContainer}>
-            <Converter
-              description="my label description"
-              currencies={currencies}
-              currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
-              selectCurrencyCode={selectCurrencyCodeCurrentLocation}
-              currencyAmount={String(currencyAmountHave)}
-              isConverted={false}
-            />
-            <IconButton color="default" aria-label="upload picture"
-            component="span" onClick={swapPanels}
-            className={classes.swapIcon}
+    <>
+      <Container className={classes.mainContainer}>
+        <Header />
+        <div className={classes.container}>
+          <div className={classes.wrapper}>
+            <Typography variant="h3" component="h1"
+            align="center" className={classes.title}
             >
-              {isMobile
-                ? <Sync fontSize="large" />
-                : <SwapHoriz fontSize="large" />
-              }
-            </IconButton>
-            <Converter
-              description="converted label description"
-              currencies={currencies}
-              currencyCode={codeConvertedStorage || codeConverted}
-              selectCurrencyCode={selectCurrencyCodeConverted}
-              currencyAmount={currencyAmountHave > 0 ? String(currencyAmountConverted) : '0'}
-              isConverted={true}
-            />
+              {t('main title')}
+            </Typography>
+            <div className={classes.row}>
+              <Typography variant="h4" component="h4"
+                className={classes.date}
+              >
+                {t('date')} {new Date().toLocaleDateString(i18n.language)}
+              </Typography>
+              <Button
+                onClick={openModal}
+                variant="outlined"
+                endIcon={<Timeline />}
+              >
+                  history
+              </Button>
+            </div>
+            <div className={classes.convertersContainer}>
+              <Converter
+                description="my label description"
+                currencies={currencies}
+                currencyCode={codeCurrentLocationStorage || codeCurrentLocation}
+                selectCurrencyCode={selectCurrencyCodeCurrentLocation}
+                currencyAmount={String(currencyAmountHave)}
+                isConverted={false}
+              />
+              <IconButton color="default" aria-label="upload picture"
+              component="span" onClick={swapPanels}
+              className={classes.swapIcon}
+              >
+                {isMobile
+                  ? <Sync fontSize="large" />
+                  : <SwapHoriz fontSize="large" />
+                }
+              </IconButton>
+              <Converter
+                description="converted label description"
+                currencies={currencies}
+                currencyCode={codeConvertedStorage || codeConverted}
+                selectCurrencyCode={selectCurrencyCodeConverted}
+                currencyAmount={currencyAmountHave > 0 ? String(currencyAmountConverted) : '0'}
+                isConverted={true}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+      {modalIsVisible && <Modal closeModal={closeModal}>
+                          <div className={classes.modalContentWrap}>
+                            <HighchartsReact
+                              highcharts={Highcharts}
+                              options={options}
+                            />
+                          </div>
+                         </Modal>
+      }
+    </>
   )
 }
 

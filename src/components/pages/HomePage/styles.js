@@ -1,10 +1,11 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
 
 export default makeStyles(theme => ({
   mainContainer: {
     backgroundColor: props => theme.themes[props.currentTheme].backgroundPage,
     height: '100vh',
-    display: 'flex',
+    // что за дичь? Увеличивать специфичность селектора?!
+    display: 'flex !important',
     flexDirection: 'column',
     [theme.breakpoints.down('xs')]: {
       padding: '40px 24px 0',
@@ -73,5 +74,16 @@ export default makeStyles(theme => ({
         background: props => theme.themes[props.currentTheme].backgroundApp,
       },
     },
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  modalContentWrap: {
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 }))

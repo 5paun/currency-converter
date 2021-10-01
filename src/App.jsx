@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { CssBaseline } from '@material-ui/core'
+import { CssBaseline } from '@mui/material'
 
 import HomePage from '@/components/pages/HomePage'
 import ThemeProviderWrapper from '@/components/wrapper/ThemeProvider'

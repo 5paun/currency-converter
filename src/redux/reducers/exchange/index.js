@@ -1,11 +1,13 @@
 import {
   USER_DATA_RESPONSE, SET_LOCAL_CURRENCY_REQUEST, SET_AMOUNT_CURRENCY_CONVERTED,
   SET_AMOUNT_CURRENCY, SET_LOCAL_CURRENCY_RESPONSE, SET_LOCAL_CURRENCY_RESPONSE_FAIL,
-  USER_DATA_RESPONSE_FAIL, SWAP_PANELS,
+  USER_DATA_RESPONSE_FAIL, SWAP_PANELS, SET_CURRENCY_HISTORY_DAILY_RESPONSE, SET_CURRENCY_HISTORY_DAILY_RESPONSE_FAIL,
+  CLEAR_WEEKLY_HISTORY,
 } from '@/constants'
 
 const initialState = {
   rates: [],
+  weeklyHistoryRates: [],
   panels: [
     {
       id: 'left',
@@ -136,6 +138,22 @@ export function exchangeReducer (state = initialState, action) {
         })],
       }
     }
+    case SET_CURRENCY_HISTORY_DAILY_RESPONSE: {
+      return {
+        ...state,
+        weeklyHistoryRates: [...state.weeklyHistoryRates, action.payload],
+      }
+    }
+    case SET_CURRENCY_HISTORY_DAILY_RESPONSE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+    case CLEAR_WEEKLY_HISTORY:
+      return {
+        ...state,
+        weeklyHistoryRates: [],
+      }
     default:
       return state
   }

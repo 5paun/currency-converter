@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import { FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select, TextField, useMediaQuery } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { SET_AMOUNT_CURRENCY, SET_AMOUNT_CURRENCY_CONVERTED } from '@/constants'
@@ -33,7 +33,7 @@ const Converter = ({
 
   return (
     <div className={classes.container}>
-      <FormControl fullWidth>
+      <FormControl fullWidth variant="standard">
         <InputLabel className={classes.label} variant="standard"
           htmlFor="uncontrolled-native"
         >
@@ -45,6 +45,7 @@ const Converter = ({
           placeholder={'Choose currency'}
           value={currencyCode}
           onChange={selectCurrencyCode}
+
         >
           {currencies.map(currency => {
             return (

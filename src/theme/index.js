@@ -16,20 +16,22 @@ import {
   lightGreyContrast,
 } from '@/constants'
 
+const COLORS = {
+  background: white,
+  backgroundLightGrey: lightGrey,
+  backgroundGrey: grey,
+  borderGrey: darkGrey,
+  borderGreen: darkGreen,
+  borderBronze: bronze,
+  primary: red,
+  primaryDark: darkRed,
+  secondary: blue,
+  secondaryLight: transparentBlue,
+  font: darkGrey,
+}
+
 export default {
-  colors: {
-    background: white,
-    backgroundLightGrey: lightGrey,
-    backgroundGrey: grey,
-    borderGrey: darkGrey,
-    borderGreen: darkGreen,
-    borderBronze: bronze,
-    primary: red,
-    primaryDark: darkRed,
-    secondary: blue,
-    secondaryLight: transparentBlue,
-    font: darkGrey,
-  },
+  colors: COLORS,
   fontSizes: {
     verySmall: '12px',
     small: '14px',
@@ -93,6 +95,15 @@ export default {
       borderPanel: darkGreyContrast,
       borderApp: darkGreenContrast,
       title: darkGreenContrast,
+    },
+  },
+  typography: {
+    button: {
+      border: `1px solid ${COLORS.borderBronze}`,
+      fontSize: 14,
+    },
+    h4: {
+      fontSize: 20,
     },
   },
 }

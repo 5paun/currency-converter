@@ -15,7 +15,7 @@ export default class ConverterService {
     })
   }
 
-  static async convertSelectedCurrency (counterCode) {
-    return axios.get(`${URL_CONVERT_SELECT_CURRENCY}${counterCode}.json`)
+  static async convertSelectedCurrency (counterCode, date = 'latest') {
+    return axios.get(`${URL_CONVERT_SELECT_CURRENCY}${date}/currencies/${counterCode}.json`)
   }
 }
