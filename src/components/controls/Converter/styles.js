@@ -25,7 +25,6 @@ export default makeStyles(theme => ({
   },
   select: {
     marginBottom: 20,
-    // Что за дичь? Пришлось увеличить специфичность селектора, чтобы не применять импотента!!
     '&.MuiInputBase-formControl::before': {
       borderBottom: props => `2px solid ${theme.themes[props.currentTheme].borderControl}`,
     },

@@ -2,13 +2,14 @@ import { makeStyles } from '@mui/styles'
 
 export default makeStyles(theme => ({
   mainContainer: {
-    backgroundColor: props => theme.themes[props.currentTheme].backgroundPage,
-    height: '100vh',
-    // что за дичь? Увеличивать специфичность селектора?!
-    display: 'flex !important',
-    flexDirection: 'column',
-    [theme.breakpoints.down('xs')]: {
-      padding: '40px 24px 0',
+    '&.MuiContainer-root': {
+      backgroundColor: props => theme.themes[props.currentTheme].backgroundPage,
+      height: '100vh',
+      display: 'flex !important',
+      flexDirection: 'column',
+      [theme.breakpoints.down('xs')]: {
+        padding: '40px 24px 0',
+      },
     },
   },
   container: {

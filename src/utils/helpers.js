@@ -1,19 +1,16 @@
+import { daysOfWeek } from '@/constants'
+
 export const log = (...rest) => {
   if (process.env.NODE_ENV === 'development') {
     console.log(...rest)
   }
 }
 
-const daysOfWeek = 7
-
 export const formatDate = i => {
   const date = new Date()
   const today = date.getDate()
   const decrementDate = new Date(new Date().setDate(today - i))
-  // const year = decrementDate.getFullYear()
-  // const month = decrementDate.getMonth() + 1
-  // const day = decrementDate.getDate()
-  // return `${year}-${month.toString().padStart(2, 0)}-${day.toString().padStart(2, 0)}`
+  // локаль ko-KR подходила лучше всего по паттерну даты, которую принимает api
   return decrementDate.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: '2-digit',
@@ -22,6 +19,8 @@ export const formatDate = i => {
 }
 
 export const getDateForWeek = () => {
+  // latest, это часть урла, который отвечает за сегодняшний день.
+  // А предыдущие шаблоны даты формируются при помощи функции выше
   const datesWeekly = ['latest']
   for (let i = 1; i < daysOfWeek; i++) {
     datesWeekly.push(formatDate(i))

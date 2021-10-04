@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest, fork, spawn, all } from '@redux-saga/core/effects'
+import { call, put, select, takeLatest, fork, join } from '@redux-saga/core/effects'
 
 import {
   USER_DATA_REQUEST, USER_DATA_RESPONSE, SET_LOCAL_CURRENCY_REQUEST,
@@ -7,7 +7,6 @@ import {
   SET_CURRENCY_HISTORY_REQUEST,
 } from '@/constants'
 import ConverterService from '@/api/ConverterService'
-import { log } from 'src/utils/helpers'
 
 function * getCurrentIpWorker () {
   try {
@@ -47,7 +46,7 @@ function * getDailyCurrencyRateWorker (date) {
     if (codeCurrentLocation) {
       const response = yield call(ConverterService.convertSelectedCurrency, codeCurrentLocation, date)
       const codeConverted = yield select(state => state.exchange.panels[1].selectedCurrency)
-      yield put({ type: SET_CURRENCY_HISTORY_DAILY_RESPONSE, payload: { date: response.data.date, currency: response.data[codeCurrentLocation][codeConverted] } })
+      return { date: response.data.date, currency: response.data[codeCurrentLocation][codeConverted] }
     }
   } catch (error) {
     yield put({ type: SET_CURRENCY_HISTORY_DAILY_RESPONSE_FAIL, payload: error.message })
@@ -56,19 +55,12 @@ function * getDailyCurrencyRateWorker (date) {
 
 function * getWeeklyCurrencyRateWorker (dates) {
   const { payload } = dates
-  // const sagas = []
+  const sagas = []
   for (const date of payload) {
-    // sagas.push(yield fork(getDailyCurrencyRateWorker, date))
-    yield fork(getDailyCurrencyRateWorker, date)
+    sagas.push(yield fork(getDailyCurrencyRateWorker, date))
   }
-  // log('sagas', sagas)
-  // const retrySagas = yield payload.map(date => {
-  //   return spawn(function * () {
-  //     return yield call(getDailyCurrencyRateWorker, date)
-  //   })
-  // })
-  // const temp = yield all(retrySagas)
-  // log('temp', temp)
+  const results = yield join(sagas)
+  yield put({ type: SET_CURRENCY_HISTORY_DAILY_RESPONSE, payload: results })
 }
 
 export default function * currenciesWatcher () {

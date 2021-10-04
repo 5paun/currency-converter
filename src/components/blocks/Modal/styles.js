@@ -16,13 +16,9 @@ export default makeStyles(theme => ({
     position: 'relative',
     zIndex: 999,
     backgroundColor: props => theme.themes[props.currentTheme].backgroundPage,
-    // padding: '30px 35px 55px',
     display: 'flex',
     flexDirection: 'column',
-    // alignItems: 'stretch',
-    // flex: '0 0 auto',
     borderRadius: 8,
-    // overflow: 'hidden',
   },
   buttonClose: {
     '&.MuiButtonBase-root': {

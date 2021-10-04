@@ -9,11 +9,11 @@ import Highcharts from 'highcharts'
 import Converter from '@/components/controls/Converter'
 import {
   USER_DATA_REQUEST, SET_LOCAL_CURRENCY_REQUEST, SWAP_PANELS,
-  SET_CURRENCY_HISTORY_REQUEST, CLEAR_WEEKLY_HISTORY,
+  SET_CURRENCY_HISTORY_REQUEST,
 } from '@/constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import data from '@/mocks/data.json'
-import { log, getDateForWeek } from '@/utils/helpers'
+import { getDateForWeek } from '@/utils/helpers'
 import Header from '@/components/blocks/Header'
 import Modal from '@/components/blocks/Modal'
 
@@ -89,20 +89,17 @@ const HomePage = () => {
   }
 
   const openModal = () => {
-    const date = getDateForWeek()
-
+    const dates = getDateForWeek()
+    dispatch({ type: SET_CURRENCY_HISTORY_REQUEST, payload: dates })
     setModalIsVisible(true)
-    dispatch({ type: SET_CURRENCY_HISTORY_REQUEST, payload: date })
   }
 
   const closeModal = () => {
     setModalIsVisible(false)
-    dispatch({ type: CLEAR_WEEKLY_HISTORY })
   }
 
   const sortAndTransformWeeklyRates = arr => {
     const sortedData = [...arr].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    log('sortedData', sortedData)
     const result = sortedData.map(item => item.currency)
     return result
   }

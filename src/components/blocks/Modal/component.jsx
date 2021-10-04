@@ -2,10 +2,10 @@ import { IconButton } from '@mui/material'
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
+import { HighlightOff } from '@mui/icons-material'
+import { useSelector } from 'react-redux'
 
 import useStyles from './styles'
-import { useSelector } from 'react-redux'
-import { HighlightOff } from '@mui/icons-material'
 
 const modalRoot = document.querySelector('#root')
 
